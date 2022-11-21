@@ -1,0 +1,120 @@
+body {
+  background-image: url(../imgs/bg-form.png);
+
+}
+
+.formCreate {
+  padding-bottom: 266px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 527px;
+}
+
+.botonX {
+  margin-top: 5px;
+  margin-right: 10px;
+  margin-left: 10px;
+  height: 20px;
+  width: 28px;
+  color: red;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.divTemp {
+  color: rebeccapurple;
+  font-size: larger;
+  display: flex;
+  justify-content: center;
+  margin-left: 5px;
+
+}
+
+.formulario {
+  border-radius: 20px;
+}
+
+input {
+  border-radius: 15px;
+  margin-bottom: 10px;
+  font-size: 15px;
+  color: black;
+}
+
+label {
+  display: flex;
+  justify-content: center;
+  font-family: 'montserrat';
+  font-weight: bolder;
+  font-size: 15px;
+
+}
+.lista {
+  display: inline-flex;
+  font-weight: bold;
+  color: rgb(255, 255, 255);
+}
+
+.botonCrear {
+  padding: 15px;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  border: none;
+  border-radius: 45px;
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  font-family: 'poppins';
+  font-weight: bold;
+  background-color: #bcd5d5;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+
+.botonVolver {
+  padding: 1.3em 3em;
+  margin-top: 25px;
+  margin-bottom: 10px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color:white;
+  border: none;
+  border-radius: 45px;
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  height: 40px;
+  font-family: 'poppins';
+  font-weight: bold;
+  background-color:  #3f7682;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}
+
+
+.botonVolver:hover {
+  background-color:  #bcd5d5;
+  box-shadow: 0px 15px 20px black;
+  color:black;
+  transform: translateY(-5px);
+
+}
+
+.formulario2 {
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+  border-radius: 25px;
+  background-color: #3f7682;
+  width: 500px;
+  padding-bottom: 20px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
+    rgba(0, 0, 0, 0.22) 0px 15px 12px;
+}
+
+.temperamentos {
+  display: flex;
+  flex-direction: column;
+}

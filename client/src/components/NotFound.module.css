@@ -1,0 +1,30 @@
+.message h1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 298px;
+  font-family: 'montserrat';
+  font-size: 40px;
+  margin-top: 4em;
+}
+
+.message button {
+  padding: 10px;
+  font-size: 25px;
+  text-transform: uppercase;
+  color: #4f4f62;
+  border-radius: 30px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  font-family: 'poppins';
+  border: none;
+  margin-bottom: 10em;
+}
+
+.message button:hover {
+  background-color: #e7641b;
+  box-shadow: 0px 15px 20px #464773;
+  color: rgb(255, 255, 255);
+}

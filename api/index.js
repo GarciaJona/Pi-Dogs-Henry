@@ -18,7 +18,7 @@
 //                       `=---='
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const server = require('./src/app.js');
-const { dataApi } = require('./src/controllers/controllers.js');
+// const { dataApi } = require('./src/controllers/controllers.js');
 const getTempers = require('./src/controllers/controllersTemps.js');
 const { conn } = require('./src/db.js');
 
@@ -26,8 +26,7 @@ const { conn } = require('./src/db.js');
 conn.sync({ force: true }).then(() => {
   server.listen(3001, async () => {
     console.log('%s listening at 3001'); // eslint-disable-line no-console
-    await dataApi();
+    // await dataApi();
     await getTempers();
-    console.log("Se levantaron las bases");
   });
 });

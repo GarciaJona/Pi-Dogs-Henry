@@ -1,4 +1,4 @@
-const { Dog, Temperaments } = require('../db');
+// const { Dog, Temperaments } = require('../db');
 const { API_KEY } = process.env;
 const axios = require('axios');
 // le pego a la API y transformo los datos
@@ -15,13 +15,13 @@ const dataApi = async () => {
       lifetime: dog.life_span,
       image: dog.image.url,
       temperaments: dog.temperament,
-      funcion: dog.bred_for,
+
       grupo: dog.breed_group,
     };
   });
 
-  const newDataBase = await Dog.bulkCreate(infoDogs);
-  return newDataBase;
+  // const newDataBase = await Dog.bulkCreate(infoDogs);
+  return infoDogs;
 };
 
 module.exports = {
