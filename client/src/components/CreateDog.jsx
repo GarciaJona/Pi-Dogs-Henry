@@ -3,212 +3,221 @@ import { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { postDog, getTemperaments } from '../actions/index';
 import { useDispatch, useSelector } from 'react-redux';
-import  style from './CreateDog.module.css';
+import style from './CreateDog.module.css';
 
-//validasion
-function validate(input) {
-  let errors = {};
-  if (!input.name) {
-    errors.name = 'Se requiere un Nombre';
-  } else if (!input.min_height) {
-    errors.min_height = 'Debe ingresar una altura minima de 20 a 80 cm';
-  } else if (!input.max_height) {
-    errors.max_height = 'Debe ingresar una altura maxima de 30 a 100 cm';
-  } else if (!input.min_weight) {
-    errors.min_weight = 'Debe ingresar un peso minimo de 3 a 50 kilos';
-  } else if (!input.max_weight) {
-    errors.max_weight = 'Debe ingresar un peso maximo de 60 a 100 kilos';
-  }
-  return errors;
-}
-
-export default function DogCreate() {
+export const CreateDog = () => {
   const dispatch = useDispatch();
-  const temperaments = useSelector((state) => state.temperaments);
-  const dogs = useSelector((state) => state.dogs);
   const history = useHistory();
-
-  const [errors, setErrors] = useState({});
-
+  //Defino los errores del Form
+  const [formError, setFormError] = useState({});
+  //Bloqueo de boton de submit
+  const [isSubmit, setisSubmit] = useState(true);
+  //Defino el body del request
   const [input, setInput] = useState({
     name: '',
+    image: '',
     min_height: '',
     max_height: '',
     min_weight: '',
     max_weight: '',
     min_years: '',
     max_years: '',
-    temper: [],
-    image: '',
+    temperaments: [],
   });
 
-  function handleChange(e) {
+  //Traigo los temps para el select
+  useEffect(() => {
+    // dispatch(getTemperaments());
+    setFormError(validName(input));
+  }, [dispatch]);
+
+  const temperaments = useSelector((state) => state.temperaments);
+  //Validacion de existencia de dato
+  function exists(str) {
+    if (!str) return true;
+    return false;
+  }
+  //Validacion del nombre
+  function validName(str) {
+    if (str.length < 1 || str.length > 30) return true;
+    if (typeof str !== 'string') return true;
+    return false;
+  }
+  //Validacion de la url
+  function validImage(str) {
+    if (str.length < 1 || str.length > 400) return true;
+    if (typeof str !== 'string') return true;
+    return false;
+  }
+  //Validacion del breed Group
+  function validBreedGroup(str) {
+    if (str.length < 1 || str.length > 30) return true;
+    if (typeof str !== 'string') return true;
+    return false;
+  }
+  //Validacion del peso
+  function validWeight(str) {
+    if (str.length < 1 || str.length > 100) return true;
+    if (typeof str !== 'string') return true;
+    return false;
+  }
+  //Validacion de la altura
+  function validHeight(str) {
+    if (str.length < 1 || str.length > 100) return true;
+    if (typeof str !== 'string') return true;
+    return false;
+  }
+  //Validacion de existencia de life span
+  function validLife(str) {
+    if (str.length < 1 || typeof str !== 'string') return true;
+    return false;
+  }
+  //Validacion del largo del string de life span
+  function longLife(str) {
+    if (str.length > 15) return true;
+    return false;
+  }
+  //La validacion de todos los campos
+  function validation(data) {
+    //Seteo un objeto que contenga todos los errores por encontrar
+    let errors = {};
+
+    //Validacion de campo name
+    if (!data.name) {
+      if (exists(data.name) === true) errors.name = 'Provide a name';
+    }
+    if (data.name && validName(data.name) === true)
+      errors.name = 'The name is not valid';
+    //Validacion de campo reference_image_id
+    if (!data.reference_image_id) {
+      if (exists(data.reference_image_id) === true)
+        errors.reference_image_id = 'Provide a image url';
+    }
+    if (data.reference_image_id && validImage(data.reference_image_id) === true)
+      errors.reference_image_id = 'You need to provide a valid image url';
+    //Validacion de campo breed_group
+    if (!data.breed_group) {
+      if (exists(data.breed_group) === true)
+        errors.breed_group = 'Provide a breed group';
+    }
+    if (data.breed_group && validBreedGroup(data.breed_group) === true)
+      errors.breed_group = 'You need to provide a breed group';
+
+    //Validacion de campos weight
+    if (!data.weight_min) {
+      if (exists(data.weight_min) === true)
+        errors.weight = 'You need to provide a minimum weight';
+    }
+    if (data.weight_min && validWeight(data.weight_min) === true)
+      errors.weight = 'The weight is not valid';
+    if (!data.weight_max) {
+      if (exists(data.weight_max) === true)
+        errors.weight = 'You need to provide a maximum weight';
+    }
+    if (data.weight_max && validWeight(data.weight_max) === true)
+      errors.weight = 'The weight is not valid';
+
+    //Validacion de campo height
+    if (!data.height_min) {
+      if (exists(data.height_min) === true)
+        errors.height = 'You need to provide a minimum height';
+    }
+    if (data.height_min && validHeight(data.height_min) === true)
+      errors.height = 'The height is not valid';
+    if (!data.height_max) {
+      if (exists(data.height_max) === true)
+        errors.height = 'You need to provide a maximum height';
+    }
+    if (data.height_max && validHeight(data.height_max) === true)
+      errors.height = 'The height is not valid';
+
+    if (parseInt(data.height_min, 10) > parseInt(data.height_max, 10))
+      errors.height =
+        'The maximum height cannot be minor than the minimum height';
+
+    if (parseInt(data.weight_min, 10) > parseInt(data.weight_max, 10))
+      errors.weight =
+        'The maximum weight cannot be minor than the minimum weight';
+    //Validacion de campo life_span
+    if (!data.life_span) {
+      if (exists(data.life_span) === true)
+        errors.life_span = 'Provide a life span';
+    }
+    if (validLife(data.life_span) === true)
+      errors.life_span = 'The life span is not valid';
+    if (longLife(data.life_span) === true)
+      errors.life_span =
+        'We wish they live forever, but we need a valid life span';
+    //Disabled
+    if (Object.keys(errors).length === 0) {
+      setisSubmit(false);
+    }
+
+    return errors;
+  }
+  //CHANGE
+  const handleChange = (e) => {
     setInput({
       ...input,
       [e.target.name]: e.target.value,
     });
-
-    setErrors(
-      validate({
+    setFormError(
+      validation({
         ...input,
         [e.target.name]: e.target.value,
       }),
     );
-  }
+  };
 
-  function handleSelect(e) {
-    setInput({
-      ...input,
-      temper: input.temper.includes(e.target.value)
-        ? input.temper
-        : [...input.temper, e.target.value],
-    });
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    if (input.name.trim() !== '') {
-      let patt = new RegExp(/^[A-Za-z\s]+$/g);
-      let res = patt.test(input.name);
-      if (res) {
-        if (
-          dogs && !dogs.find(
-            (el) =>
-              el.name.trim().toLowerCase() === input.name.trim().toLowerCase(),
-          )
-        ) {
-          if (input.min_height !== '') {
-            if (input.min_height >= 20 && input.min_height <= 80) {
-              if (input.max_height !== '') {
-                if (input.max_height >= 30 && input.max_height <= 100) {
-                  if (input.min_height <= input.max_height) {
-                    if (input.min_weight !== '') {
-                      if (input.min_weight >= 3 && input.min_weight <= 50) {
-                        if (input.max_weight !== '') {
-                          if (
-                            input.max_weight >= 60 &&
-                            input.max_weight <= 100
-                          ) {
-                            if (input.min_weight <= input.max_weight) {
-                              if (input.min_years !== '') {
-                                if (
-                                  input.min_years >= 1 &&
-                                  input.min_years <= 3
-                                ) {
-                                  if (input.max_years !== '') {
-                                    if (
-                                      input.max_years >= 3 &&
-                                      input.max_years <= 20
-                                    ) {
-                                      if (input.min_years <= input.max_years) {
-                                        if (input.temper.length > 0) {
-                                          dispatch(postDog(input));
-                                          alert(
-                                            'Tu Perro Fue Creado Con Exito !! 🤗',
-                                          );
-                                          setInput({
-                                            name: '',
-                                            min_height: '',
-                                            max_height: '',
-                                            min_weight: '',
-                                            max_weight: '',
-                                            min_years: '',
-                                            max_years: '',
-                                            temper: [],
-                                            image: '',
-                                          });
-                                          history.push('/home');
-                                          return;
-                                        } else {
-                                          alert(
-                                            'Temperamento no fue cargado. Por favor Seleccione algun/os Temperamento/s',
-                                          );
-                                          return;
-                                        }
-                                      } else {
-                                        alert(
-                                          'el año minimo debe ser menor o igual al año maximo',
-                                        );
-                                        return;
-                                      }
-                                    } else {
-                                      alert(
-                                        'el año de vida maximo debe ser mayor o igual a 3 y menor igual a 20',
-                                      );
-                                      return;
-                                    }
-                                  }
-                                } else {
-                                  alert(
-                                    'el año de vida minimo debe ser mayor o igual a 1 y menor igual a 3',
-                                  );
-                                  return;
-                                }
-                              }
-                            } else {
-                              alert(
-                                'el peso minimo debe ser menor o igual al peso maximo',
-                              );
-                              return;
-                            }
-                          } else {
-                            alert(
-                              'el peso maximo debe ser mayor o igual a 60 y menor o igual a 100',
-                            );
-                            return;
-                          }
-                        }
-                      } else {
-                        alert(
-                          'el peso minimo debe ser mayor o igual a 3 y menor o igual a 50',
-                        );
-                        return;
-                      }
-                    }
-                  } else {
-                    alert(
-                      'la altura minima debe ser menor o igual a la altura maxima',
-                    );
-                    return;
-                  }
-                } else {
-                  alert(
-                    'el valor maximo de altura debe ser mayor o igual a 30 o menor o igual a 100',
-                  );
-                  return;
-                }
-              }
-            } else {
-              alert(
-                'El valor minimo de la altura debe ser mayor o igual a 20 y menor o igual a 80',
-              );
-              return;
-            }
-          }
-        } else {
-          alert('Ya existe la raza con ese nombre');
-          return;
-        }
-      } else {
-        alert('La raza debe ser solamente completado con letras');
-        return;
-      }
-    }
-    alert(
-      'Los campos Nombre Altura Peso y Temperamentos deben estar completados 😪',
-    );
-  }
-
+  //DELETE TEMPS
   function handleDelete(el) {
     setInput({
       ...input,
-      temper: input.temper.filter((occ) => occ !== el),
+      temps: input.temps.filter((temp) => temp !== el),
     });
   }
 
-  useEffect(() => {
-    dispatch(getTemperaments());
-  }, [dispatch]);
+  //SELECT
+  const handleSelect = (e) => {
+    setInput({
+      ...input,
+      temps: [...input.temps, e.target.value],
+    });
+  };
+  //SUBMIT
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (
+      !formError.name &&
+      !formError.reference_image_id &&
+      !formError.weight_min &&
+      !formError.height_min &&
+      !formError.weight_max &&
+      !formError.height_max &&
+      !formError.breed_group &&
+      !formError.bred_for &&
+      !formError.origin &&
+      !formError.life_span
+    ) {
+      alert('Your dog has been created successfully');
+      dispatch(postDog(input));
+      setInput({
+        name: '',
+        image: '',
+        min_height: '',
+        max_height: '',
+        min_weight: '',
+        max_weight: '',
+        min_years: '',
+        max_years: '',
+        temperaments: [],
+      });
+      history.push('/home');
+    } else {
+      return alert('Something went wrong. Please try again.');
+    }
+  };
+  console.log(useSelector((state) => state.temperaments));
 
   return (
     <div className={style.formCreate}>
@@ -227,7 +236,7 @@ export default function DogCreate() {
               name='name'
               onChange={(e) => handleChange(e)}
             />
-            {errors.name && <p className='error'>{errors.name}</p>}
+            {formError.name && <p className='error'>{formError.name}</p>}
           </div>
           <div>
             <label>Altura Minima: </label>
@@ -237,7 +246,9 @@ export default function DogCreate() {
               name='min_height'
               onChange={(e) => handleChange(e)}
             />
-            {errors.min_height && <p className='error'>{errors.min_height}</p>}
+            {formError.min_height && (
+              <p className='error'>{formError.min_height}</p>
+            )}
           </div>
           <div>
             <label>Altura Maxima: </label>
@@ -247,7 +258,9 @@ export default function DogCreate() {
               name='max_height'
               onChange={(e) => handleChange(e)}
             />
-            {errors.max_height && <p className='error'>{errors.max_height}</p>}
+            {formError.max_height && (
+              <p className='error'>{formError.max_height}</p>
+            )}
           </div>
           <div>
             <label>Peso Minimo: </label>
@@ -257,7 +270,9 @@ export default function DogCreate() {
               name='min_weight'
               onChange={(e) => handleChange(e)}
             />
-            {errors.min_weight && <p className='error'>{errors.min_weight}</p>}
+            {formError.min_weight && (
+              <p className='error'>{formError.min_weight}</p>
+            )}
           </div>
           <div>
             <label>Peso Maximo: </label>
@@ -267,7 +282,9 @@ export default function DogCreate() {
               name='max_weight'
               onChange={(e) => handleChange(e)}
             />
-            {errors.max_weight && <p className='error'>{errors.max_weight}</p>}
+            {formError.max_weight && (
+              <p className='error'>{formError.max_weight}</p>
+            )}
           </div>
           <div>
             <label>Imagen: </label>
@@ -301,10 +318,10 @@ export default function DogCreate() {
             <label>Temperamento: </label>
 
             <select onChange={(e) => handleSelect(e)}>
-              <option disabled selected>
+              <option disabled defaultValue>
                 Seleccione el temperamento
               </option>
-              {temperaments.map((e) => (
+              {temperaments?.map((e) => (
                 <option value={e.name} key={e.id}>
                   {e.name}
                 </option>
@@ -312,10 +329,13 @@ export default function DogCreate() {
             </select>
             <div className={style.teper}>
               <ul>
-                {input.temper.map((el) => (
+                {input.temperaments.map((el) => (
                   <li className={style.lista}>
                     {el}
-                    <button className= {style.botonX} onClick={() => handleDelete(el)}>
+                    <button
+                      className={style.botonX}
+                      onClick={() => handleDelete(el)}
+                    >
                       X
                     </button>
                   </li>
@@ -331,4 +351,4 @@ export default function DogCreate() {
       </div>
     </div>
   );
-}
+};

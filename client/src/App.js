@@ -3,7 +3,7 @@ import { BrowserRouter,Route,Switch} from "react-router-dom";
 import Landing from "./components/Landing";
 import Home from"./components/Home"
 import DogDetail from "./components/DogDetail"
-import CreateDog from "./components/CreateDog"
+import {CreateDog} from "./components/CreateDog"
 import NotFound from './components/NotFound';
 import Footer from './components/Footer';
 
