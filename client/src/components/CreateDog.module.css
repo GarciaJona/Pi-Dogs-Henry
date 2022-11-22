@@ -21,7 +21,7 @@ body {
   border-radius: 15px;
   cursor: pointer;
 }
-
+/* 
 .divTemp {
   color: rebeccapurple;
   font-size: larger;
@@ -29,7 +29,7 @@ body {
   justify-content: center;
   margin-left: 5px;
 
-}
+} */
 
 .formulario {
   border-radius: 20px;
@@ -114,7 +114,7 @@ label {
     rgba(0, 0, 0, 0.22) 0px 15px 12px;
 }
 
-.temperamentos {
+.temper {
   display: flex;
   flex-direction: column;
 }

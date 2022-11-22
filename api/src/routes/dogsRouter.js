@@ -60,68 +60,69 @@ router.get('/:id', async (req, res) => {
 
 // //------------------- Post -------------------//
 
-// router.post('/', async (req, res) => {
-//   const { name, id, height, weight, life, image, creatInDb, temperaments } =
-//     req.body;
-//   try {
-//     const dogCreated = await Dog.create({
-//       id,
-//       name,
-//       height,
-//       weight,
-//       life,
-//       image,
-//       creatInDb,
-//       temperaments,
-//     });
-//     if (temperaments) {
-//       temperaments.map(async (temperament) => {
-//         let temps = await Temperaments.findOne({
-//           where: {
-//             name: temperament,
-//           },
-//         });
-//         dogCreated.addTemperament(temps);
-//       });
-//     }
-//     res.status(200).send('Creado Exitosamente');
-//   } catch (error) {
-//     res.status(404).send(error.message);
-//   }
-// });
-
-router.post("/", async (req, res) => {
+router.post('/', async (req, res) => {
+  const { name, id, height, weight, life, image, creatInDb, temperaments } =
+    req.body;
   try {
-    const {
+    const dogCreated = await Dog.create({
+      id,
       name,
-      image,
-      min_height,
-      max_height,
-      min_weight,
-      max_weight,
-      min_years,
-      max_years,
-      temperaments,
-    } = req.body;
-    const height = min_height + " - " + max_height;
-    const weight = min_weight + " - " + max_weight;
-    const years = min_years + " - " + max_years;
-    const dogCreate = await Dog.create({
-      name,
-      image,
       height,
       weight,
-      years,
+      life,
+      image,
+      creatInDb,
+      temperaments,
     });
-    let temperDb = await Temperaments.findAll({
-      where: { name: temperaments },
-    });
-    dogCreate.addTemper(temperDb);
-    res.status(200).send("Perro creado con exito");
+    if (temperaments) {
+      temperaments.map(async (temperament) => {
+        let temps = await Temperaments.findOne({
+          where: {
+            name: temperament,
+          },
+        });
+        dogCreated.addTemperament(temps);
+      });
+    }
+    res.status(200).send('Creado Exitosamente');
   } catch (error) {
-    console.log(error);
+    console.log(error)
+    res.status(404).send(error.message);
   }
 });
+
+// router.post("/", async (req, res) => {
+//   try {
+//     const {
+//       name,
+//       image,
+//       min_height,
+//       max_height,
+//       min_weight,
+//       max_weight,
+//       min_years,
+//       max_years,
+//       temperaments,
+//     } = req.body;
+//     const height = min_height + " - " + max_height;
+//     const weight = min_weight + " - " + max_weight;
+//     const lifetime = min_years + " - " + max_years;
+//     const dogCreate = await Dog.create({
+//       name,
+//       image,
+//       height,
+//       weight,
+//       lifetime,
+//     });
+//     let temperDb = await Temperaments.findAll({
+//       where: { name: temperaments },
+//     });
+//     dogCreate.addTemper(temperDb);
+//     res.status(200).send("Perro creado con exito");
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
 
 // //------------------- Delete -------------------//
 

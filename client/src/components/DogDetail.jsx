@@ -7,7 +7,6 @@ import style from './DogDetail.module.css';
 import Nav from './Nav';
 import loader from '../imgs/loading-thinking.gif';
 
-
 export default function Detail() {
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -28,9 +27,12 @@ export default function Detail() {
             <p>Height: {dogDetail?.height}"</p>
             <p>Weight: {dogDetail?.weight} pounds.</p>
             <p>Life span: {dogDetail?.lifetime}.</p>
-            <p>Temperaments: {dogDetail?.temperaments}</p>
+            {id.length > 4 ? (
+              <p>Temperaments: {dogDetail?.temperaments[0].name}</p>
+            ) : (
+              <p>Temperaments: {dogDetail?.temperaments}</p>
+            )}
           </div>
-          
         </div>
       );
     } else {
