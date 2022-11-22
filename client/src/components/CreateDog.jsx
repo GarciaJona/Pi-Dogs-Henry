@@ -8,7 +8,7 @@ import style from './CreateDog.module.css';
 export const CreateDog = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  //Defino los errores del Form
+  //Defino los errores del form
   const [formError, setFormError] = useState({});
   //Bloqueo de boton de submit
   const [isSubmit, setisSubmit] = useState(true);
@@ -51,12 +51,12 @@ export const CreateDog = () => {
     if (typeof str !== 'string') return true;
     return false;
   }
-  //Validacion del breed Group
-  function validBreedGroup(str) {
-    if (str && (str.length < 1 || str.length > 30)) return true;
-    if (typeof str !== 'string') return true;
-    return false;
-  }
+  // //Validacion del breed Group
+  // function validBreedGroup(str) {
+  //   if (str && (str.length < 1 || str.length > 30)) return true;
+  //   if (typeof str !== 'string') return true;
+  //   return false;
+  // }
   //Validacion del peso
   function validWeight(str) {
     if (str && (str.length < 1 || str.length > 100)) return true;
@@ -124,7 +124,7 @@ export const CreateDog = () => {
       errors.max_height =
         'The maximum weight cannot be minor than the minimum weight';
 
-    //Validacion de campo height
+    //Validacion de campos height
     //min
     if (!data.min_height) {
       if (exists(data.min_height) === true)

@@ -6,7 +6,7 @@ import style from './Nav.module.css';
 export default function Nav() {
   return (
     <nav className={style.nav}>
-      <img src={icon} alt='jaja' className={style.icon} />
+      <img src={icon} alt='dog' className={style.icon} />
       <Link to='/home' className={style.link}>
         Home
       </Link>
